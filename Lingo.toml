@@ -11,5 +11,5 @@ platform = "Native"
 [app.properties]
 
 [dependencies]
-mqtt = {version=">=0.1", git="https://github.com/LF-Community/mqtt.git"}
-websocket = {version=">=0.1", git="https://github.com/LF-Community/websocket.git"}
+mqtt = {version=">=0.1", git="https://github.com/LF-Community/mqtt.git", tag="v0.1.2"}
+websocket = {version=">=0.1", git="https://github.com/LF-Community/websocket.git", branch="dev"}
