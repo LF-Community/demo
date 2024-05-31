@@ -1,0 +1,15 @@
+[package]
+name = "demo"
+version = "0.1.0"
+
+[[app]]
+name = "Main"
+main = "./src/Main.lf"
+target = "Cpp"
+platform = "Native"
+
+[app.properties]
+
+[dependencies]
+mqtt = {version=">=0.1", git="https://github.com/LF-Community/mqtt.git"}
+websocket = {version=">=0.1", git="https://github.com/LF-Community/websocket.git"}

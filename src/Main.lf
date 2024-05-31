@@ -1,0 +1,7 @@
+target C;
+
+main reactor Main {
+    reaction (startup)  {=
+        std::cout << "Hello World" << std::endl;
+    =}
+} 

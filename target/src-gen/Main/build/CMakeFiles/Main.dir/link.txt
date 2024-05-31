@@ -1,0 +1,1 @@
+/nix/store/9bv7dcvmfcjnmg5mnqwqlq2wxfn8d7yi-gcc-wrapper-13.2.0/bin/gcc -O3 -DNDEBUG CMakeFiles/Main.dir/lib/schedule.c.o CMakeFiles/Main.dir/_main_main.c.o CMakeFiles/Main.dir/Main.c.o -o Main  -lm core/libreactor-c.a core/liblf-low-level-platform-impl.a core/liblf-platform-impl.a

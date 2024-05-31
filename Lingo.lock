@@ -1,0 +1,22 @@
+{
+  "package_locations": {
+    "mqtt": {
+      "location": {
+        "version": "0.1.0",
+        "location": {
+          "git": "https://github.com/LF-Community/mqtt.git"
+        }
+      },
+      "hash": "1d998ace2e705c1cd4d8d8e415fa869fc1a0a895"
+    },
+    "websocket": {
+      "location": {
+        "version": "0.1.0",
+        "location": {
+          "git": "https://github.com/LF-Community/websocket.git"
+        }
+      },
+      "hash": "5b2b92d01a2dfec8d38920338d1e8cf561cfa973"
+    }
+  }
+}
