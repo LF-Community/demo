@@ -81,7 +81,6 @@ void _lf_initialize_trigger_objects() {
     
     // Set reaction priorities for ReactorInstance Main
     {
-        main_main_self[0]->_lf__reaction_0.chain_id = 1;
         // index is the OR of level 0 and 
         // deadline 9223372036854775807 shifted left 16 bits.
         main_main_self[0]->_lf__reaction_0.index = lf_combine_deadline_and_level(9223372036854775807, 0);
@@ -106,11 +105,15 @@ void _lf_initialize_trigger_objects() {
     #endif // FEDERATED
 }
 void logical_tag_complete(tag_t tag_to_send) {
-#ifdef FEDERATED_CENTRALIZED
-        lf_latest_tag_complete(tag_to_send);
-#endif // FEDERATED_CENTRALIZED
+ #ifdef FEDERATED_CENTRALIZED
+     lf_latest_tag_complete(tag_to_send);
+ #else
+     (void) tag_to_send;
+ #endif // FEDERATED_CENTRALIZED
 
 }
 #ifndef FEDERATED
-void lf_terminate_execution(environment_t* env) {}
+void lf_terminate_execution(environment_t* env) {
+    (void) env;
+}
 #endif

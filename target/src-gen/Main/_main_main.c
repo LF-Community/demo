@@ -8,7 +8,7 @@
 void _main_mainreaction_function_0(void* instance_args) {
     _main_main_main_self_t* self = (_main_main_main_self_t*)instance_args; SUPPRESS_UNUSED_WARNING(self);
     
-    #line 5 "/home/revol-xut/workspace/lf/demo/./src/Main.lf"
+    #line 10 "/home/revol-xut/workspace/lf/demo/./src/Main.lf"
     std::cout << "Hello World" << std::endl;
 #line 14 "/home/revol-xut/workspace/lf/demo/target/src-gen/Main/_main_main.c"
 }

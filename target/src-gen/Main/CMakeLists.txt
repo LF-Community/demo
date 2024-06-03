@@ -1,94 +1,43 @@
+cmake_minimum_required(VERSION 3.5)
+project(Main VERSION 0.0.0 LANGUAGES CXX)
 
-cmake_minimum_required(VERSION 3.19)
-project(Main LANGUAGES C)
-
-if(CMAKE_BUILD_TYPE STREQUAL "Test")
-  set(CMAKE_BUILD_TYPE "Debug")
-  if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
-    find_program(LCOV_BIN lcov)
-    if(LCOV_BIN MATCHES "lcov$")
-      set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage -fprofile-arcs -ftest-coverage")
-    else()
-      message("Not producing code coverage information since lcov was not found")
-    endif()
-  else()
-    message("Not producing code coverage information since the selected compiler is no gcc")
-  endif()
-endif()
-# Require C11
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
-
-# Require C++17
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-set(DEFAULT_BUILD_TYPE Debug)
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-    set(CMAKE_BUILD_TYPE ${DEFAULT_BUILD_TYPE} CACHE STRING "Choose the type of build." FORCE)
-endif()
-
-# Do not print install messages
-set(CMAKE_INSTALL_MESSAGE NEVER)
-# Colorize compilation output
-set(CMAKE_COLOR_DIAGNOSTICS ON)
-
-
-# Set default values for build parameters
-if (NOT DEFINED SCHEDULER)
-    set(SCHEDULER SCHED_NP)
-endif()
-if (NOT DEFINED LF_REACTION_GRAPH_BREADTH)
-    set(LF_REACTION_GRAPH_BREADTH 1)
-endif()
-if (NOT DEFINED NUMBER_OF_WORKERS)
-    set(NUMBER_OF_WORKERS 0)
-endif()
-if (NOT DEFINED LOG_LEVEL)
-    set(LOG_LEVEL 2)
-endif()
-if (NOT DEFINED NUMBER_OF_WATCHDOGS)
-    set(NUMBER_OF_WATCHDOGS 0)
-endif()
-add_subdirectory(core)
+find_package(reactor-cpp PATHS )
 
 set(LF_MAIN_TARGET Main)
 
-# Declare a new executable target and list all its sources
-add_executable(
-    ${LF_MAIN_TARGET}
-    lib/schedule.c
-    _main_main.c
-    Main.c
+add_executable(${LF_MAIN_TARGET}
+    Main/Main.cc
+    target/lfc_include/mqtt/src/MQTTSubscriber/_lf_preamble.cc
+    target/lfc_include/websocket/src/WebSocketServerString/_lf_preamble.cc
+    target/lfc_include/websocket/src/WebSocketServer/_lf_preamble.cc
+    Main/_lf_preamble.cc
+    main.cc
+)
+target_include_directories(${LF_MAIN_TARGET} PUBLIC
+    "${LF_SRC_PKG_PATH}/src"
+    "${PROJECT_SOURCE_DIR}"
+    "${PROJECT_SOURCE_DIR}/__include__"
+)
+target_link_libraries(${LF_MAIN_TARGET} PUBLIC reactor-cpp-default)
+
+if(MSVC)
+  target_compile_options(${LF_MAIN_TARGET} PRIVATE /W4)
+else()
+  target_compile_options(${LF_MAIN_TARGET} PRIVATE -Wall -Wextra -pedantic)
+endif()
+
+install(TARGETS ${LF_MAIN_TARGET}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        OPTIONAL
 )
 
-find_library(MATH_LIBRARY m)
-if(MATH_LIBRARY)
-  target_link_libraries(${LF_MAIN_TARGET} PUBLIC ${MATH_LIBRARY})
-endif()
-target_link_libraries(${LF_MAIN_TARGET} PRIVATE reactor-c)
-target_include_directories(${LF_MAIN_TARGET} PUBLIC .)
-target_include_directories(${LF_MAIN_TARGET} PUBLIC include/)
-target_include_directories(${LF_MAIN_TARGET} PUBLIC include/api)
-target_include_directories(${LF_MAIN_TARGET} PUBLIC include/core)
-target_include_directories(${LF_MAIN_TARGET} PUBLIC include/core/platform)
-target_include_directories(${LF_MAIN_TARGET} PUBLIC include/core/modal_models)
-target_include_directories(${LF_MAIN_TARGET} PUBLIC include/core/utils)
-# Find threads and link to it
-find_package(Threads REQUIRED)
-target_link_libraries(${LF_MAIN_TARGET} PRIVATE Threads::Threads)
+# Cache a list of the include directories for use with tools external to CMake and Make.
+# This will only work if the subdirectory that sets up the library target has already been visited.
+get_target_property(TARGET_INCLUDE_DIRECTORIES ${LF_MAIN_TARGET} INCLUDE_DIRECTORIES)
+get_target_property(REACTOR_CPP_INCLUDE_DIRECTORIES reactor-cpp-default INCLUDE_DIRECTORIES)
+list(APPEND TARGET_INCLUDE_DIRECTORIES ${REACTOR_CPP_INCLUDE_DIRECTORIES})
+set(TARGET_INCLUDE_DIRECTORIES_Main ${TARGET_INCLUDE_DIRECTORIES} CACHE STRING "Directories included in the main target." FORCE)
+set(CXX_COMPILER_ID ${CMAKE_CXX_COMPILER_ID} CACHE STRING "The name of the C++ compiler." FORCE)
 
-# Set the number of workers to enable threading/tracing
-target_compile_definitions(${LF_MAIN_TARGET} PUBLIC NUMBER_OF_WORKERS=0)
-
-
-    install(
-        TARGETS ${LF_MAIN_TARGET}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    )
-
-
-# Define directory in which files from the 'files' target directive will be put.
-target_compile_definitions(${LF_MAIN_TARGET} PUBLIC LF_TARGET_FILES_DIRECTORY="${CMAKE_CURRENT_LIST_DIR}")
-
-
+            
+include(/home/revol-xut/workspace/lf/demo/target/src-gen/Main/aggregated_cmake_include.cmake)
