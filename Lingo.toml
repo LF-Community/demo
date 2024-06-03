@@ -9,6 +9,7 @@ target = "Cpp"
 platform = "Native"
 
 [app.properties]
+cmake-include="test.cmake"
 
 [dependencies]
 mqtt = {version=">=0.1", git="https://github.com/LF-Community/mqtt.git", tag="v0.1.2"}
