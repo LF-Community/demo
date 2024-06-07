@@ -7,7 +7,7 @@
           "git": "https://github.com/LF-Community/mqtt.git"
         }
       },
-      "hash": "be1179012b00b3b6236708fc85c0e1d4b2d0c8a7"
+      "hash": "d1c63e74b10e5b62816baa47a472910e201413af"
     },
     "websocket": {
       "location": {
@@ -16,7 +16,7 @@
           "git": "https://github.com/LF-Community/websocket.git"
         }
       },
-      "hash": "b31fe23e9aec0b45577e7b17ccdba2bec4abe577"
+      "hash": "9dbb03e7382990655936f346a302933de7a3fe8a"
     }
   }
 }

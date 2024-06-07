@@ -244,7 +244,7 @@ void lf_connect_to_federate(uint16_t);
  * This will return the socket descriptor for the connection.
  * If port_number is 0, then start at DEFAULT_PORT and increment
  * the port number on each attempt. If an attempt fails, wait CONNECT_RETRY_INTERVAL
- * and try again.  If it fails after CONNECT_MAX_RETRIES, the program exits.
+ * and try again.  If it fails after CONNECT_TIMEOUT, the program exits.
  * If it succeeds, it sets the _fed.socket_TCP_RTI global variable to refer to
  * the socket for communicating with the RTI.
  * @param hostname A hostname, such as "localhost".
@@ -495,6 +495,12 @@ void lf_spawn_staa_thread(void);
  * @param level The level to which we would like to advance.
  */
 void lf_stall_advance_level_federation(environment_t* env, size_t level);
+
+/**
+ * @brief Version of lf_stall_advance_level_federation() that assumes the caller holds the mutex lock.
+ * @param level The level to which we would like to advance.
+ */
+void lf_stall_advance_level_federation_locked(size_t level);
 
 /**
  * @brief Synchronize the start with other federates via the RTI.

@@ -3,9 +3,9 @@ name = "demo"
 version = "0.1.0"
 
 [[app]]
-name = "Main"
-main = "./src/Main.lf"
-target = "Cpp"
+name = "WebSocket"
+main = "./src/WebSocket.lf"
+target = "C"
 platform = "Native"
 
 [app.properties]
